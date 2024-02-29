@@ -1,0 +1,88 @@
+{
+  "rules": [
+    {
+      "id": "no-empty-fields",
+      "type": "MARC",
+      "fieldType": "NON_LOCAL",
+      "fieldSelector": "ANY",
+      "validations": [
+        {
+          "type": "NOT_EMPTY"
+        }
+      ]
+    },
+    {
+      "id": "leader-validations",
+      "type": "MARC",
+      "fieldSelector": "LDR",
+      "fieldType": "SYSTEM",
+      "validations": [
+        {
+          "type": "LENGTH",
+          "length": 24
+        },
+        {
+          "type": "ALLOWED_VALUES",
+          "position": 5,
+          "values": [
+            "a",
+            "c",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1xx-unique",
+      "type": "MARC",
+      "fieldSelector": "1XX",
+      "fieldType": "SYSTEM",
+      "validations": [
+        {
+          "type": "NON_REPEATABLE"
+        }
+      ]
+    },
+    {
+      "id": "system-001",
+      "type": "MARC",
+      "fieldSelector": "001",
+      "fieldType": "SYSTEM",
+      "validations": [
+        {
+          "type": "REQUIRED"
+        },
+        {
+          "type": "NON_REPEATABLE"
+        }
+      ]
+    },
+    {
+      "id": "system-010",
+      "type": "MARC",
+      "fieldSelector": "010",
+      "fieldType": "SYSTEM",
+      "validations": [
+        {
+          "type": "SUBFIELD_EXACTLY_ONE",
+          "subfield": "a"
+        }
+      ]
+    },
+    {
+      "id": "custom",
+      "type": "MARC",
+      "fieldSelector": "999",
+      "fieldType": "LOCAL",
+      "validations": [
+        {
+          "type": "REQUIRED",
+          "dependsOn": {
+            "tag": "010",
+            "subfield": "a"
+          }
+        }
+      ]
+    }
+  ]
+}
