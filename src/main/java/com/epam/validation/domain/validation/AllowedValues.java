@@ -1,7 +1,7 @@
-package com.epam.validation.mapper.validation;
+package com.epam.validation.domain.validation;
 
+import com.epam.validation.domain.MarcValidation;
 import com.epam.validation.domain.ValidationResult;
-import com.epam.validation.mapper.MarcValidation;
 import com.epam.validation.marc.dto.FieldItem;
 import lombok.Data;
 
@@ -16,14 +16,14 @@ public class AllowedValues extends MarcValidation {
 
     @Override
     public ValidationResult validate(List<FieldItem> fieldItems) {
-        if (fieldItems.size() != 1) {
-            return ValidationResult.error("Should have only 1 field");
+        if (fieldItems.size() != 1 || fieldItems.get(0).getContent() == null) {
+            return ValidationResult.error(getRuleId(), "Should have only 1 field");
         }
         String content = fieldItems.get(0).getContent().toString();
         if (values.contains(content.substring(position - 1, position))) {
             return ValidationResult.ok();
         }
-        return ValidationResult.error(String.format("Should have %s at position %d",
+        return ValidationResult.error(getRuleId(), String.format("Should have %s at position %d",
                 String.join(", ", values),
                 position
         ));

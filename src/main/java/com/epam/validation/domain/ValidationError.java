@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ValidationError {
+    private String ruleId;
     private String message;
 
 }

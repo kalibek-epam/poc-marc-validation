@@ -1,16 +1,17 @@
-package com.epam.validation.mapper;
+package com.epam.validation.domain;
 
 
-import com.epam.validation.domain.ValidationResult;
-import com.epam.validation.mapper.validation.*;
+import com.epam.validation.domain.validation.*;
 import com.epam.validation.marc.dto.BaseMarcRecord;
 import com.epam.validation.marc.dto.FieldItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -30,8 +31,21 @@ public abstract class MarcValidation {
 
     private Field dependsOn;
     private MarcFieldType fieldType;
+    @JsonIgnore
+    private String ruleId;
 
     private List<FieldItem> fieldsByFieldSelector(BaseMarcRecord record, Field field) {
+        if (Objects.equals(field.getTag(), "ANY")) {
+            return record.getFields();
+        }
+
+        if (Objects.equals(field.getTag(), "LDR")) {
+            // Just for the sake of POC
+            var f = new FieldItem()
+                    .tag("LDR");
+            f.setContent(record.getLeader());
+            return List.of(f);
+        }
 
         return record.getFields().stream()
                 .filter(fieldItem -> {
@@ -53,6 +67,7 @@ public abstract class MarcValidation {
                     }
 
                     return StringUtils.isEmpty(field.getSubfield())
+                            || field.getSubfield() != null
                             || ((String) fieldItem.getContent()).contains(SUBFIELD_CHAR + field.getSubfield());
                 }).toList();
 
@@ -70,4 +85,5 @@ public abstract class MarcValidation {
     }
 
     public abstract ValidationResult validate(List<FieldItem> fieldItems);
+
 }

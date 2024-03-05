@@ -1,6 +1,8 @@
 package com.epam.validation.mapper;
 
-import com.epam.validation.mapper.validation.SubfieldExactlyOne;
+import com.epam.validation.domain.MarcValidation;
+import com.epam.validation.domain.RuleSet;
+import com.epam.validation.domain.validation.SubfieldExactlyOne;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;

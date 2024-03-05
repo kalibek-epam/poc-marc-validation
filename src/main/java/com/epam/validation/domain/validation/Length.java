@@ -1,7 +1,7 @@
-package com.epam.validation.mapper.validation;
+package com.epam.validation.domain.validation;
 
+import com.epam.validation.domain.MarcValidation;
 import com.epam.validation.domain.ValidationResult;
-import com.epam.validation.mapper.MarcValidation;
 import com.epam.validation.marc.dto.FieldItem;
 import lombok.Data;
 
@@ -14,8 +14,8 @@ public class Length extends MarcValidation {
     @Override
     public ValidationResult validate(List<FieldItem> fieldItems) {
         for (FieldItem f : fieldItems) {
-            if (f.getContent().toString().length() != length) {
-                return ValidationResult.error(String.format("Should have length %d", length));
+            if (f.getContent() == null || f.getContent().toString().length() != length) {
+                return ValidationResult.error(getRuleId(), String.format("Should have length %d", length));
             }
         }
         return ValidationResult.ok();

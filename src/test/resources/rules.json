@@ -35,7 +35,7 @@
     {
       "id": "1xx-unique",
       "type": "MARC",
-      "fieldSelector": "1XX",
+      "fieldSelector": "101",
       "fieldType": "SYSTEM",
       "validations": [
         {

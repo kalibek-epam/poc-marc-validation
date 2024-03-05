@@ -1,14 +1,22 @@
 package com.epam.validation.domain;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Data;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Rule {
-    SupportedFormat format();
+import java.util.List;
 
-    Operation operation();
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = MarcRule.class, name = "MARC"),
+})
+@Data
+public abstract class Rule {
+    private String id;
+    private String fieldSelector;
+    private String fieldType;
+    private Level level;
+    private List<MarcValidation> validations;
 }

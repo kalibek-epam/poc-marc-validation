@@ -1,4 +1,4 @@
-package com.epam.validation.mapper;
+package com.epam.validation.domain;
 
 public enum Level {
     ERROR, WARNING

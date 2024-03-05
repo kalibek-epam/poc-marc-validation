@@ -15,7 +15,7 @@ public class ValidationResult {
         return new ValidationResult();
     }
 
-    public static ValidationResult error(String message) {
-        return new ValidationResult(true, new ValidationError(message));
+    public static ValidationResult error(String ruleId, String message) {
+        return new ValidationResult(true, new ValidationError(ruleId, message));
     }
 }
